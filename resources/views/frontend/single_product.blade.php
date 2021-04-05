@@ -109,13 +109,13 @@
                             <span class="pull-left">৳ {{$product->price}}</span>
                             
                             <ul class="rating pull-right">
-                                <div class="star-ratings-sprite"><span style= "width:{{ $review->sum('rating')/$review->count() * 20}}%" class="star-ratings-sprite-rating"></span></div>
-                                {{-- <li><i class="fa fa-star"></i></li>
+                                <div class="star-ratings-sprite"><span style= "width: {{ $review->count() == 0 ? '0' : $review->sum('rating')/$review->count() * 20 }}%" class="star-ratings-sprite-rating"></span></div>
+                                {{-- <li><i class="fa fa-star"></i></li> 
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li> --}}
-                                <li>({{ $review->count() }} Customar Review)</li>
+                                <li>({{ $review->count() }} Customar Review)</li>  
                                 
                             </ul>
                         </div>
@@ -145,7 +145,7 @@
                             <li class="quantity cart-plus-minus">
                                 <input name="quantity" placeholder="Enter Quantity" type="text" min="1" max="10" />
                             </li>
-                            <li><button class="btncolor">Add to Cart</button></li>
+                            <li><a style="width: 0px;" href="#"><button class="btncolor">Add to Cart</button></a></li>
                         </ul>
                         <ul class="cetagory">
                             <li>Categories: {{ $product->Category->category_name }}</li>

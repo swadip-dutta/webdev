@@ -20,11 +20,12 @@ class FrontendController extends Controller
 {
     function front(){
 
-        
+        $review = ProductReview::latest()->get();
 
         return view('frontend.home', [
             'products' => Product::latest()->limit(4)->get(),
             'carts' => Cart::latest()->limit(3)->get(),
+            'review' => $review
         ]);
        
     }

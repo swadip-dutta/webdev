@@ -53,6 +53,8 @@ class HomeController extends Controller
         $this_month_sale = Order::wheredate('created_at', Carbon::now()->subMonth())->sum(DB::raw('quantity * product_unit_price'));
         $this_year_sale = Order::wheredate('created_at', Carbon::now()->subDays(365))->sum(DB::raw('quantity * product_unit_price'));
 
+
+        $review = ProductReview::latest()->get();
         return view('backend.dashboard', [
             'today' => $today,
             'yesterday' => $yesterday,
@@ -61,6 +63,7 @@ class HomeController extends Controller
             'this_week_sale' => $this_week_sale,
             'this_month_sale' => $this_month_sale,
             'this_year_sale' => $this_year_sale,
+            'review' => $review
 
         ]);
 

@@ -41,7 +41,7 @@ class CartController extends Controller
             $cart->save();
         }
         
-        return back();
+        return redirect()->route('Cart');
     }
 
     function Cart(Request $request){

@@ -65,39 +65,16 @@ active
 
                     <div class="col-12">
                         <div class="pagination-wrapper text-center mb-30">
-                            {{-- {{ $blogs->links() }} --}}
-                            
                             @if ($blogs->lastPage() > 1)
-                                
-                            {{-- background: #ef4836;
-                                color: #fff;
-                                border-color: #ef4836; --}}
-
-                                {{-- height: 30px;
-                                    width: 30px;
-                                    line-height: 30px;
-                                    border: 1px solid #ef4836;
-                                        border-top-color: rgb(239, 72, 54);
-                                        border-right-color: rgb(239, 72, 54);
-                                        border-bottom-color: rgb(239, 72, 54);
-                                        border-left-color: rgb(239, 72, 54);
-                                    color: #ef4836;
-                                    display: inline-block; --}}
-
                             <ul class="page-numbers">
-                                <li><a href="{{ $blogs->url(1) }}" class="{{ $blogs->currentPage() == 1 ? 'disabled' : 'disabled' }}"><i class="fa fa-arrow-left"></i></a></li>
+                                <li><a href="{{ $blogs->currentPage() != 1 ? $blogs->url(1) : 'javascript:void(0)'  }}" class="{{ $blogs->currentPage() == 1 ? 'javascript:void(0)' : 'javascript:void(0)' }}"><i class="fa fa-arrow-left"></i></a></li>
                                 @for ($i = 1; $i <= $blogs->lastPage(); $i++)
-
                                 <li class="pagin {{ $blogs->currentPage() == $i ? 'current' : '' }}">
                                     <a class="page-numbers" href="{{ $blogs->url($i) }}">{{ $i }}</a>
                                 </li>
-
                                 @endfor
-                                
-
-                                <li><a class="{{ $blogs->currentPage() == $blogs->lastPage() ? $blogs->lastPage() : 'disabled' }}" href="{{ $blogs->url($blogs->currentPage() +1) }}"><i class="fa fa-arrow-right"></i></a></li>
+                                <li><a class="{{ $blogs->currentPage() == $blogs->lastPage() ? $blogs->lastPage() : 'disabled' }}" href="{{ $blogs->currentPage() !=  $blogs->lastPage() ? $blogs->url($blogs->currentPage() +1) : 'javascript:void(0)' }}"><i class="fa fa-arrow-right"></i></a></li>
                             </ul>
-
                             @endif
                         </div>
                     </div>
