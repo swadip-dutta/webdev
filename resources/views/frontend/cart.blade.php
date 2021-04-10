@@ -28,7 +28,7 @@ active
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <form action="{{ route('CartUpdate') }}" method="post">
+                    <form action="{{ route('CartProductUpdate') }}" method="post">
                         @csrf
                         <table class="table-responsive cart-wrap">
                             <thead>
@@ -78,7 +78,7 @@ active
                                 <div class="cartcupon-wrap">
                                     <ul class="d-flex">
                                         <li>
-                                            <button>Update Cart</button>
+                                            <button><a href="{{ route('CartProductUpdate') }}">Update Cart</a></button>
                                         </li>
                                         <li><a href="{{ route('Shop') }}">Continue Shopping</a></li>
                                     </ul>
@@ -147,12 +147,19 @@ active
            let qty_quantity = $('.qty_quantity{{ $car->id }}').val();
            let unit_price = $('.unit_price{{ $car->id }}').attr('data-unit{{ $car->id }}');
            $('.total_unit{{ $car->id }}').html('$' + qty_quantity * unit_price);
+           $minus_sub_total = (qty_quantity * unit_price);
+           $grand_total_total = $minus_sub_total + $plus_sub_total;
+           alert( $grand_total_total)
+
            
         })
         $('.qtyplus{{ $car->id }}').click(function(){
            let qty_quantity = $('.qty_quantity{{ $car->id }}').val();
            let unit_price = $('.unit_price{{ $car->id }}').attr('data-unit{{ $car->id }}');
            $('.total_unit{{ $car->id }}').html('$' + qty_quantity * unit_price);
+           $plus_sub_total = (qty_quantity * unit_price);
+           $grand_total_total = $minus_sub_total + $plus_sub_total;
+           alert( $grand_total_total)
            
         })
         @endforeach

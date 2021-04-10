@@ -23,6 +23,7 @@ Route::get('/search', 'FrontendController@Search')->name('Search');
 
 
 Route::get('/', 'FrontendController@front')->name('front');
+Route::get('/product/get/review/{product}/{review}', 'FrontendController@GetReview')->name('GetReview');
 
 Route::get('/checkout', 'CheckoutController@Checkout')->name('Checkout');
 
@@ -123,7 +124,7 @@ Route::post('/products/reviews', 'HomeController@UserReview')->name('UserReview'
 //Cart Page
 
 Route::post('add-to-cart', 'CartController@AddToCart')->name('AddToCart');
-Route::post('cart-update', 'CartController@CartUpdate')->name('CartUpdate');
+Route::post('cart-product-update', 'CartController@CartUpdate')->name('CartProductUpdate');
 Route::get('cart', 'CartController@Cart')->name('Cart');
 Route::get('cart/{code}', 'CartController@Cart')->name('CouponValue');
 Route::get('cart-product-delete/{id}', 'CartController@CartProductDelete')->name('CartProductDelete');

@@ -26,4 +26,12 @@ class Product extends Model
     function Cart(){
         return $this->hasOne(Cart::class, 'product_id');
     }
+
+    function ProductReview(){
+        return $this->belongsTo(ProductReview::class, 'product_id');
+    }
+
+    
+
+    
 }

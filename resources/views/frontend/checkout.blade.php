@@ -148,7 +148,7 @@ Checkout Page
                                 
                                 @endforeach
                                 <li>Subtotal <span class="pull-right"><strong>${{ $grand_total }}</strong></span></li>
-                                <li style="font-size: 14px; font-weight: 400">Shipping <span class="pull-right" style="margin-top: -20px">
+                                <li style="font-size: 14px; font-weight: 400">Shipping <span class="pull-right" style="margin-top: -20px" required>
                               <input class="dhaka" name="shipping" type="radio" value={{ 60 }}> Dhaka<br>
                               <input class="outside_dhaka" name="shipping" type="radio" value={{ 160 }}> Out Side Of Dhaka
                               </span></li>
@@ -184,19 +184,22 @@ Checkout Page
                                 <li>
                                     <input id="card" value="card" type="radio" name="payment">
                                     <label for="card">Credit Card</label>
-                                </li>
+                                <li>
 
                                 <label for="card-element">
                                     Credit or debit card
                                   </label>
+                                  
                                   <div id="card-element">
                                     <!-- A Stripe Element will be inserted here. -->
                                   </div>
                               
                                   <!-- Used to display form errors. -->
                                   <div id="card-errors" role="alert"></div>
+                                </li>
+                                </li>
 
-                                <li>
+                                
                                     <input id="cash" value="cash" type="radio" name="payment">
                                     <label for="cash">Cash on Delivery</label>
                                 </li>
@@ -268,6 +271,11 @@ Checkout Page
 
 
 //Stripe Js Code Start
+// var x = $("#card").selectedIndex;
+
+// var s = document.getElementById('#card');
+
+if ($("#card").selectedIndex) {
 
 // Create a Stripe client.
 var stripe = Stripe('pk_test_51I5Q8AGBXnr0dom1Mj38LAfLboVNKsMjvOnykEo5pLTHJhUUtwd7gbgR34PIMAiaJMlCQAZ4c9gKNgoxbzGykUoH00eus150zJ');
@@ -293,6 +301,8 @@ var style = {
   }
 };
 
+
+
 // Create an instance of the card Element.
 var card = elements.create('card', {style: style});
 
@@ -300,6 +310,8 @@ var card = elements.create('card', {style: style});
 card.mount('#card-element');
 
 // Handle real-time validation errors from the card Element.
+
+
 card.on('change', function(event) {
   var displayError = document.getElementById('card-errors');
   if (event.error) {
@@ -341,7 +353,7 @@ function stripeTokenHandler(token) {
 }
 
 
-
+}
 
 //SELECTION SCRIPT
 

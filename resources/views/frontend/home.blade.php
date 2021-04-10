@@ -250,12 +250,12 @@ active
                 <div class="col-12">
                     <div class="section-title">
                         <h2>Our Latest Product</h2>
-                        <img src="assets/images/section-title.png" alt="">
+                        <img src="assets/images/section-title.png" alt="title">
                     </div>
                 </div>
             </div>
             <ul class="row">
-                @foreach ($products as $item)
+                @foreach (App\Product::latest()->limit(4)->get() as $item)
                 <li class="col-xl-3 col-lg-4 col-sm-6 col-12">
                     <div class="product-wrap">
                         <div class="product-img">
@@ -274,6 +274,20 @@ active
                             <p class="pull-left">$ {{ $item->price }}
                             </p>
                             <ul class="pull-right d-flex">
+                                {{-- <li>
+                                @php
+                                    $rev = App\ProductReview::latest()->limit()->get();
+                                @endphp
+                                @foreach ($rev as $rev)
+                                    {{ $rev->rating }}
+                                @endforeach
+                               
+                            </li>
+                            <li>
+                                <div class="rw" style="background: #fff;width: 24px;height: 20px;display: flex;margin-left: -24px;"></div>
+                            </li> --}}
+                                
+
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
@@ -338,6 +352,7 @@ active
         </div>
     </div>
 </form>
+                
                 @endforeach
 
                 <li class="col-12 text-center">
