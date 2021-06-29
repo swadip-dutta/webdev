@@ -1,9 +1,9 @@
 @extends('backend.master')
 
- @section('category')
+ @section('view_subcategory')
   active
  @endsection
-
+ @can('add users')
 @section('content')
 
 <div class="sl-pagebody">
@@ -51,3 +51,4 @@
       </div>
 
 @endsection
+@endcan

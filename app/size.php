@@ -13,4 +13,8 @@ class size extends Model
     function Cart(){
         return $this->hasMany(Cart::class, 'size_id');
     }
+
+    function wishlist(){
+        return $this->hasMany(wishlist::class, 'size_id');
+    }
 }

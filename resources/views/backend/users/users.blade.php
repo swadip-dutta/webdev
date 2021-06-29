@@ -1,4 +1,10 @@
+@can('add users')
+
 @extends('backend.master')
+@section('users')
+    active
+@endsection
+
 @section('content')
     
 <div class="sl-pagebody">
@@ -6,7 +12,7 @@
       <h5>Total Users ( {{ $user_count }} )</h5>
     </div><!-- sl-page-title -->
 
-    @can('add users')
+    
 
     <div class="card pd-20 pd-sm-40 mg-t-50">
   
@@ -32,7 +38,7 @@
               <td>{{ $user->email ?? 'N/A'}}</td>
               <td>{{ $user->created_at->format('d-M-Y l')}}</td>
               <td>
-                <a href=""class="btn btn-purple">Edit</a>
+                <a href="{{ route('UsersEdit', $user->id) }}" class="btn btn-purple">Edit</a>
                 <a href="{{ url('category/delete') }}/{{ $user->id }}"class="btn btn-danger">Delete</a>
               </td>
             </tr>
@@ -42,10 +48,11 @@
         {{ $users->links() }}
       </div><!-- table-responsive -->
     </div><!-- card -->
-    @endcan
+    
 
   
 
   </div>
 
 @endsection
+@endcan

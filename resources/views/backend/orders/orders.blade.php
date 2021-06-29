@@ -1,9 +1,13 @@
 @extends('backend.master')
+@section('orders')
+    active
+@endsection
+@can('add category')
 @section('content')
     
 <div class="sl-pagebody">
     <div class="sl-page-title">
-      <h5>Total Orders ( )</h5>
+      <h5>Total Orders ({{ $order_count }})</h5>
     </div><!-- sl-page-title -->
 
     {{-- style="display: inline-table; margin-right: 25px;" style="margin-right: -80px;" style="display: inline-block;"
@@ -76,3 +80,4 @@
   </div>
 
 @endsection
+@endcan

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,9 +17,26 @@ use Illuminate\Support\Facades\App;
 |
 */
 
+//Cart Product Update
+Route::post('update-to-cart', 'CartController@updatetocart')->name('updatetocart');
+
 //Search 
 
 Route::get('/search', 'FrontendController@Search')->name('Search');
+
+
+// Shipping
+
+Route::post('/shipping/update', 'HomeController@ShippingUpdate')->name('ShippingUpdate');
+
+Route::get('/shipping/list', 'HomeController@ShippingList')->name('ShippingList');
+
+Route::get('/shipping/delete/{id}', 'HomeController@ShippingDelete')->name('ShippingDelete');
+
+Route::get('/shipping/search', 'HomeController@ShippingSearch')->name('ShippingSearch');
+
+Route::get('/shipping/edit/{id}', 'HomeController@ShippingEdit')->name('ShippingEdit');
+
 
 
 
@@ -41,10 +59,27 @@ Route::get('/product/{id}', 'FrontendController@SingleProduct')->name('SinglePro
 Route::get('/contact', 'TestController@contact');
 Auth::routes(['verify' => true]);
 
+// Home
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// About
+Route::get('/about', 'FrontendController@About')->name('About');
+
+// Contact
+Route::get('/contact', 'FrontendController@Contact')->name('Contact');
+
+// Message
+Route::post('/message', 'FrontendController@Message')->name('Message');
+Route::get('/all-message', 'HomeController@AllMessage')->name('AllMessage');
+Route::get('/delete-message/{id}', 'HomeController@DeleteMessage')->name('DeleteMessage');
+
+
+// Category
 Route::get('/category-list', 'CategoryController@CategoryList')->name('CategoryList');
+
+Route::get('/category-add', 'CategoryController@CategoryAdd')->name('CategoryAdd');
 
 Route::post('/category-post', 'CategoryController@CategoryPost')->name('CategoryPost');
 
@@ -75,7 +110,14 @@ Route::get('/subcategory-edit/{scat_id}', 'SubCategoryController@SubCategoryEdit
 
 Route::post('/subcategory-update', 'SubCategoryController@SubCategoryUpdate')->name('SubCategoryUpdate');
 
+//User's
+
 Route::get('users', 'HomeController@users')->name('users');
+
+Route::get('users/edit/{id}', 'HomeController@UsersEdit')->name('UsersEdit');
+
+Route::post('users/update', 'HomeController@UsersUpdate')->name('UsersUpdate');
+
 
 Route::get('products', 'ProductController@products')->name('products');
 
@@ -124,7 +166,7 @@ Route::post('/products/reviews', 'HomeController@UserReview')->name('UserReview'
 //Cart Page
 
 Route::post('add-to-cart', 'CartController@AddToCart')->name('AddToCart');
-Route::post('cart-product-update', 'CartController@CartUpdate')->name('CartProductUpdate');
+
 Route::get('cart', 'CartController@Cart')->name('Cart');
 Route::get('cart/{code}', 'CartController@Cart')->name('CouponValue');
 Route::get('cart-product-delete/{id}', 'CartController@CartProductDelete')->name('CartProductDelete');
@@ -133,6 +175,14 @@ Route::get('cart-product-delete/{id}', 'CartController@CartProductDelete')->name
 //Shop Page
 
 Route::get('/shop', 'FrontendController@Shop')->name('Shop');
+
+// Wish List
+
+Route::get('/wish', 'WishController@WishList')->name('WishList');
+Route::get('/wish-add/{id}/{category_id}/{subcategory_id}/{brand_id}', 'WishController@WishAdd')->name('WishAdd');
+Route::get('wish-product-delete/{id}', 'WishController@WishProductDelete')->name('WishProductDelete');
+Route::post('wish-product-update', 'WishController@WishProductUpdate')->name('WishProductUpdate');
+
 
 //Role Management
 
@@ -205,19 +255,3 @@ Route::get('/{locale}', function ($locale) {
     return back();
 })->name('lang');
 
-
-
-
-
-
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/about', function(){
-//     $about = "This is About Page";
-//     $sum = 20 + 6;
-
-//     return view('pages.about', compact('about', 'sum')); 
-// });

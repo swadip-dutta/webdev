@@ -12,7 +12,7 @@ use Auth;
 use Stripe;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
-
+use App\wishlist;
 //Paypal
 use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
@@ -34,7 +34,7 @@ class PaymentController extends Controller
         $this->middleware('auth');
 
         /** PayPal api context **/
-        $paypal_conf = \Config::get('paypal');
+        $paypal_conf = \Illuminate\Support\Facades\Config::get('paypal');
         $this->_api_context = new ApiContext(new OAuthTokenCredential(
             $paypal_conf['client_id'],
             $paypal_conf['secret'])
@@ -81,6 +81,30 @@ class PaymentController extends Controller
             
             $cart->delete();
         }
+
+
+
+        $wish = wishlist::where('cookie_id', $cookie)->get();
+
+        foreach ($wish as $wish) {
+
+            $order = new Order;
+            $order->shipping_id = $shipping->id;
+            $order->product_id = $wish->product_id;
+            $order->product_unit_price = $wish->product->price;
+            $order->quantity = $wish->quantity;
+            $order->save();
+
+            $attr = attribute::where('product_id', $wish->product_id)->where('color_id', $wish->color_id)->where('size_id', $wish->size_id);
+            if($attr->exists()){
+                $attr->decrement('quantity', $wish->quantity);
+            };
+            
+            $wish->delete();
+        }
+
+
+
 
         
         

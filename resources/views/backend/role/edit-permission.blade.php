@@ -1,4 +1,10 @@
 @extends('backend.master')
+
+@section('role')
+    active
+@endsection
+@can('add users')
+
 @section('content')
     
 <div class="sl-pagebody">
@@ -38,3 +44,4 @@
 
 </div>
 @endsection
+@endcan

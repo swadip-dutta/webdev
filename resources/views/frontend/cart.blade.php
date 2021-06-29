@@ -4,6 +4,10 @@
 active
 @endsection
 
+@section('title')
+ Cart Page
+@endsection
+
 @section('content')
     
     <!-- .breadcumb-area start -->
@@ -28,7 +32,9 @@ active
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <form action="{{ route('CartProductUpdate') }}" method="post">
+                   
+                        
+                    <form id="incrs_qut" action="{{ route('updatetocart') }}" method="POST">
                         @csrf
                         <table class="table-responsive cart-wrap">
                             <thead>
@@ -48,29 +54,47 @@ active
                                     $grand_total = 0;
                                 @endphp
                                 @foreach ($carts as $cart)
-                                <tr>
+                                <tr class="cartpage">
                                     <td class="images"><img src="{{ asset('images/'.$cart->product->thumbnail) }}" alt="{{ $cart->product->title }}"></td>
                                     <td class="product"><a target="_blank" href="{{ route('SingleProduct', $cart->product->id) }}">{{ $cart->product->title }}</a></td>
                                     <td class="price unit_price{{ $cart->id }}" data-unit{{ $cart->id }}="{{ number_format($cart->product->price, 2) }}">${{ number_format($cart->product->price, 2) }}</td>
                                     <td class="color">{{ $cart->color->color_name }}</td>
                                     <td class="size">{{ $cart->size->size_name }}</td>
-                                    <input type="hidden" name="cart_id[]" value="{{ $cart->id }}">
-                                    <td class="quantity cart-plus-minus">
+                                    
+
+
+                                    <td class="cart-product-quantity" width="130px">
+                                        <div class="input-group quantity">
+                                            
+                                            <div class="input-group-prepend decrement-btn changequty" style="position: absolute; z-index: 999; top: 18px; left: -28px;">
+                                                <span style="height: 35px; width: 35px; text-align: center; line-height: 35px; font-size: 18px; cursor: pointer; color: #fff; background: #ef4836; position: absolute; top: 50%; left: 27px; transform: translateY(-51%); -webkit-transform: translateY(-51%); -moz-transform: translateY(-51%);" class="input-group-text">-</span>
+                                            </div>
                                         
-                                        <input type="text" class="qty_quantity{{ $cart->id }}" name="quantity[]" value="{{ $cart->quantity }}" />
-                                        <div class="dec qtybutton" id="qtyminus{{ $cart->id }}">-</div>
-                                        <div class="inc qtybutton qtyplus{{ $cart->id }}">+</div>
+
+                                            <input name="quantity[]" style=" width: 120px; padding: 0px 35px; text-align: center; height: 35px; position: relative; background: #ccc; color: #0d0d0d; border: none;" type="text" class="qty-input form-control" maxlength="2" max="10" value="{{ $cart->quantity }}">
+                                            <div class="input-group-append increment-btn changequty" style="position: absolute; z-index: 999; right: 35px;">
+                                                <span style="top: 0; left: 0; height: 35px; width: 35px; text-align: center; line-height: 35px; font-size: 18px; cursor: pointer; color: #fff; background: #ef4836; position: absolute;" class="input-group-text">+</span>
+                                            </div>
+                                        </div>
                                     </td>
+
 
                                     @php
                                         $grand_total += ($cart->product->price * $cart->quantity)
                                     @endphp
 
-                                    <td class="total total_unit{{ $cart->id }}">${{ $cart->product->price * $cart->quantity }}</td>
+                                    <td class="total tuin total_unit{{ $cart->id }}">${{ $cart->product->price * $cart->quantity }}</td>
+                                    
+
+
+                                
                                     <td class="remove"><a href="{{ route('CartProductDelete', $cart->id) }}"><i class="fa fa-times"></i></a></td>
                                     
                                 </tr>
+
+                                <input type="hidden" name="cart_id[]" value="{{ $cart->id }}">
                                 @endforeach
+                                
                             </tbody>
                         </table>
                         <div class="row mt-60">
@@ -78,7 +102,7 @@ active
                                 <div class="cartcupon-wrap">
                                     <ul class="d-flex">
                                         <li>
-                                            <button><a href="{{ route('CartProductUpdate') }}">Update Cart</a></button>
+                                            <button type="submit">Update Cart</button>
                                         </li>
                                         <li><a href="{{ route('Shop') }}">Continue Shopping</a></li>
                                     </ul>
@@ -99,9 +123,9 @@ active
                                     <h3>Cart Totals</h3>
                                     <ul>
                                         
-                                        <li><span class="pull-left">Sub Total </span>${{ $grand_total ?? 0 }}</li>
+                                        <li><span class="pull-left grand_total">Sub Total </span>${{ $new_in ?? 0 }}</li>
                                         <li><span class="pull-left">Coupon Discount </span>${{ $coupon_discount ?? 0 }}</li>
-                                        <li><span class="pull-left grand_total"> Total </span>${{ $grand_total - $coupon_discount?? '' }}</li>
+                                        <li><span class="pull-left grand_total"> Total </span>$ <span class="has">{{ $grand_total - $coupon_discount ?? 0 }}</span></li>
                                         <input type="hidden" name="coupon_discount" value="{{ $grand_total - $coupon_discount }}">
                                     </ul>
                                     <a href="{{route('Checkout') }}">Proceed to Checkout</a>
@@ -115,54 +139,47 @@ active
             </div>
         </div>
     </div>
-    <!-- cart-area end -->
-    <!-- start social-newsletter-section -->
-    <section class="social-newsletter-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="newsletter text-center">
-                        <h3>Subscribe  Newsletter</h3>
-                        <div class="newsletter-form">
-                            <form>
-                                <input type="text" class="form-control" placeholder="Enter Your Email Address...">
-                                <button type="submit"><i class="fa fa-send"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end container -->
-    </section>
-    <!-- end social-newsletter-section -->
+<!-- cart-area end -->
+   
 
 @endsection
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     $(document).ready(function(){
-        @foreach($carts as $car)
-        $('#qtyminus{{ $car->id }}').click(function(){
-           let qty_quantity = $('.qty_quantity{{ $car->id }}').val();
-           let unit_price = $('.unit_price{{ $car->id }}').attr('data-unit{{ $car->id }}');
-           $('.total_unit{{ $car->id }}').html('$' + qty_quantity * unit_price);
-           $minus_sub_total = (qty_quantity * unit_price);
-           $grand_total_total = $minus_sub_total + $plus_sub_total;
-           alert( $grand_total_total)
 
-           
-        })
-        $('.qtyplus{{ $car->id }}').click(function(){
-           let qty_quantity = $('.qty_quantity{{ $car->id }}').val();
-           let unit_price = $('.unit_price{{ $car->id }}').attr('data-unit{{ $car->id }}');
-           $('.total_unit{{ $car->id }}').html('$' + qty_quantity * unit_price);
-           $plus_sub_total = (qty_quantity * unit_price);
-           $grand_total_total = $minus_sub_total + $plus_sub_total;
-           alert( $grand_total_total)
-           
-        })
-        @endforeach
+        $('.increment-btn').click(function (e) {
+            e.preventDefault();
+            var incre_value = $(this).parents('.quantity').find('.qty-input').val();
+            var value = parseInt(incre_value, 10);
+            value = isNaN(value) ? 0 : value;
+            if(value<10){
+                value++;
+                $(this).parents('.quantity').find('.qty-input').val(value);
+            }
+
+        });
+
+        $('.decrement-btn').click(function (e) {
+            e.preventDefault();
+            var decre_value = $(this).parents('.quantity').find('.qty-input').val();
+            var value = parseInt(decre_value, 10);
+            value = isNaN(value) ? 0 : value;
+            if(value>1){
+                value--;
+                $(this).parents('.quantity').find('.qty-input').val(value);
+            }
+        });
+
+
+
+
+        $('.changequty').click(function(){
+            document.getElementById('incrs_qut').submit();
+        });
+
+
+
 
 
         
@@ -173,6 +190,9 @@ active
         text: '{{ session('discount_pay') }}'
         })
         @endif
+
+
+
 
 
 

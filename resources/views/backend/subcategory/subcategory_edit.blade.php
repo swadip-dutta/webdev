@@ -8,7 +8,7 @@ Sub Category Add
 @section('category')
   active
  @endsection
-
+ @can('add users')
 
 @section('content')
 
@@ -56,3 +56,4 @@ Sub Category Add
 </div><!-- sl-pagebody -->
 
 @endsection
+@endcan

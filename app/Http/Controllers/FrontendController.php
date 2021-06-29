@@ -6,33 +6,38 @@ use App\Gallery;
 use App\Product;
 use App\category;
 use Str;
+use Cookie;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\attribute;
 use App\Blog;
 use App\Cart;
+use App\Color;
 use App\Comment;
+use App\message;
 use App\ProductReview;
+use App\size;
+use App\wishlist;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Cookie;
 
 class FrontendController extends Controller
 {
     function front(){
 
-        $review = ProductReview::latest()->limit(4)->get();
+        $review = message::all();
+        $bestsell = ProductReview::all();
 
         return view('frontend.home', [
-            'products' => Product::latest()->limit(4)->get(),
+            'products' => Product::latest()->get(),
             'carts' => Cart::latest()->limit(3)->get(),
-            'review' => $review
+            'review' => $review,
+            'bestsell' => $bestsell
         ]);
        
     }
 
-    function GetReview($product, $review) {
+    
 
-    }
     
 
     
@@ -125,8 +130,47 @@ class FrontendController extends Controller
             }
 
             
-            echo $all_product = $product->get();
-                }
+            $all_product = $product->get();
+
+            return view('frontend.search', [
+                'all_product' =>$all_product
+            ]);
+        }
+
+
+    function About(){
+
+        $bestsell = ProductReview::all();
+
+        return view('frontend.about', [
+            'bestsell' => $bestsell
+        ]);
+    }
+
+
+    function Contact(){
+
+        return view('frontend.contact');
+    }
+
+    function Message(Request $request){
+
+        $msg = new message;
+        $msg->name = $request->name;
+        $msg->email = $request->email;
+        $msg->subject = $request->subject;
+        $msg->message = $request->message;
+        $msg->save();
+
+        return back();
+    }
+
+
+                
+
+    
+
+
 
 
 

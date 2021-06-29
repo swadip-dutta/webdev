@@ -3,7 +3,7 @@
  @section('category')
   active
  @endsection
-
+ @can('add users')
 @section('content')
 
 <div class="sl-pagebody">
@@ -51,3 +51,4 @@
       </div>
 
 @endsection
+@endcan

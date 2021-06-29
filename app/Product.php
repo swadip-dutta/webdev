@@ -27,11 +27,29 @@ class Product extends Model
         return $this->hasOne(Cart::class, 'product_id');
     }
 
+
+    function wishlist(){
+        return $this->hasOne(wishlist::class, 'product_id');
+    }
+
+
+
     function ProductReview(){
-        return $this->belongsTo(ProductReview::class, 'product_id');
+        return $this->hasOne(ProductReview::class, 'product_id');
+    }
+
+
+
+
+    function ProductRev(){
+        return $this->hasOne(ProductReview::class, 'product_id');
     }
 
     
+
+    // function Productreview(){
+    //     return $this->belongsTo(Product::class, 'product_id');
+    // }
 
     
 }

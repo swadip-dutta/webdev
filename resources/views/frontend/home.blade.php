@@ -17,7 +17,7 @@ active
                                 <div class="col-lg-12 col-lg-9 col-12">
                                     <div class="slider-content">
                                         <div class="slider-shape">
-                                            <h2 data-swiper-parallax="-500">Amazing Pure Nature Hohey</h2>
+                                            <h2 data-swiper-parallax="-500">Summer New T-Shirt</h2>
                                             <p data-swiper-parallax="-400">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin</p>
                                             <a href="{{ route('Shop') }}" data-swiper-parallax="-300">Shop Now</a>
                                         </div>
@@ -34,7 +34,7 @@ active
                                 <div class="col-lg-12 col-lg-9 col-12">
                                     <div class="slider-content">
                                         <div class="slider-shape">
-                                            <h2 data-swiper-parallax="-500">Amazing Pure Nature Coconut Oil</h2>
+                                            <h2 data-swiper-parallax="-500">Jackson Brand T-Shirt</h2>
                                             <p data-swiper-parallax="-400">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin</p>
                                             <a href="{{ route('Shop') }}" data-swiper-parallax="-300">Shop Now</a>
                                         </div>
@@ -51,7 +51,7 @@ active
                                 <div class="col-lg-12 col-lg-9 col-12">
                                     <div class="slider-content">
                                         <div class="slider-shape">
-                                            <h2 data-swiper-parallax="-500">Amazing Pure Nut Oil</h2>
+                                            <h2 data-swiper-parallax="-500">Winter New T-shirt</h2>
                                             <p data-swiper-parallax="-400">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin</p>
                                             <a href="{{ route('Shop') }}" data-swiper-parallax="-300">Shop Now</a>
                                         </div>
@@ -120,7 +120,7 @@ active
     </div>
     <!-- end count-down-section -->
     <!-- product-area start -->
-    <div class="product-area product-area-2">
+    <div style="padding-bottom: 20px;" class="product-area product-area-2">
         <div class="fluid-container">
             <div class="row">
                 <div class="col-12">
@@ -131,114 +131,78 @@ active
                 </div>
             </div>
             <ul class="row">
-                <li class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                @foreach ($bestsell as $item)           
+                @if ($item->rating > 3)
+                    
+               <li class="col-xl-3 col-lg-4 col-sm-6 col-12">
                     <div class="product-wrap">
                         <div class="product-img">
-                            <img src="assets/images/product/1.jpg" style="width: 280px; height: 284px;"  alt="">
+                            <span>Sale</span>
+                            <img src="{{asset('images/'.$item->Product->thumbnail)}}" alt="{{$item->title}}">
                             <div class="product-icon flex-style">
                                 <ul>
-                                    <li><a data-toggle="modal" data-target="#exampleModalCenter" href="javascript:void(0);"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="wishlist.html"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="cart.html"><i class="fa fa-shopping-bag"></i></a></li>
+                                    <li><a href="{{ route('SingleProduct', $item->Product->id) }}"><i class="fa fa-eye"></i></a></li>
+                                    
+                                    <li><a href="{{ route('WishAdd', [$item->Product->id, $item->Product->category_id, $item->Product->subcategory_id, $item->Product->brand_id]) }}"><i class="fa fa-heart"></i></a></li>
+                                       
+                                    <li><a href="{{ route('SingleProduct', $item->Product->id) }}"><i class="fa fa-shopping-bag"></i></a></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="product-content">
-                            <h3><a href="single-product.html">Nature Honey</a></h3>
-                            <p class="pull-left">$125
 
+                        <div class="product-content">
+                            <h3><a href="{{ route('SingleProduct', $item->Product->id) }}">{{$item->Product->title}}</a></h3>
+                            <p class="pull-left">$ {{ $item->Product->price }}
                             </p>
                             <ul class="pull-right d-flex">
+
+                                @if (empty($item->rating))
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+
+                                @elseif ($item->rating == 1)
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                @elseif ($item->rating == 2)
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                @elseif ($item->rating == 3)
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                @elseif ($item->rating == 4)
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star-half-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                @elseif ($item->rating == 5)
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                @endif
                             </ul>
                         </div>
                     </div>
                 </li>
-                <li class="col-xl-3 col-lg-4 col-sm-6 col-12">
-                    <div class="product-wrap">
-                        <div class="product-img">
-                            <img src="assets/images/product/2.jpg" alt="">
-                            <div class="product-icon flex-style">
-                                <ul>
-                                    <li><a data-toggle="modal" data-target="#exampleModalCenter" href="javascript:void(0);"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="wishlist.html"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="cart.html"><i class="fa fa-shopping-bag"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <h3><a href="single-product.html">Olive Oil</a></h3>
-                            <p class="pull-left">$125
 
-                            </p>
-                            <ul class="pull-right d-flex">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star-half-o"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-xl-3 col-lg-4 col-sm-6 col-12">
-                    <div class="product-wrap">
-                        <div class="product-img">
-                            <img src="assets/images/product/3.jpg" alt="">
-                            <div class="product-icon flex-style">
-                                <ul>
-                                    <li><a data-toggle="modal" data-target="#exampleModalCenter" href="javascript:void(0);"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="wishlist.html"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="cart.html"><i class="fa fa-shopping-bag"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <h3><a href="single-product.html">Olive Oil</a></h3>
-                            <p class="pull-left">$125
-
-                            </p>
-                            <ul class="pull-right d-flex">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star-half-o"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-xl-3 col-lg-4 col-sm-6 col-12">
-                    <div class="product-wrap">
-                        <div class="product-img">
-                            <img src="assets/images/product/4.jpg" alt="">
-                            <div class="product-icon flex-style">
-                                <ul>
-                                    <li><a data-toggle="modal" data-target="#exampleModalCenter" href="javascript:void(0);"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="wishlist.html"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="cart.html"><i class="fa fa-shopping-bag"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <h3><a href="single-product.html">Coconut Oil</a></h3>
-                            <p class="pull-left">$125
-
-                            </p>
-                            <ul class="pull-right d-flex">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star-half-o"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
+            @endif    
+                         
+        @endforeach
+                
             </ul>
         </div>
     </div>
@@ -251,22 +215,29 @@ active
                     <div class="section-title">
                         <h2>Our Latest Product</h2>
                         <img src="assets/images/section-title.png" alt="title">
+                        
                     </div>
                 </div>
             </div>
             <ul class="row">
-                @foreach (App\Product::latest()->limit(4)->get() as $item)
-                <li class="col-xl-3 col-lg-4 col-sm-6 col-12">
+
+                @foreach ($products as $key => $item)
+                
+                <li class="col-xl-3 col-lg-4 col-sm-6 col-12 {{ $products->count() }} @if($key + 1 > 0) moreload @endif">
                     <div class="product-wrap">
                         <div class="product-img">
                             <span>Sale</span>
                             <img src="{{asset('images/'.$item->thumbnail)}}" alt="{{$item->title}}">
                             <div class="product-icon flex-style">
                                 <ul>
-                                    <li><a  href="{{ route('SingleProduct', $item->id) }}"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="wishlist.html"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="{{ route('SingleProduct', $item->id) }}"><i class="fa fa-eye"></i></a></li>
+                                    
+                                    <li><a href="{{ route('WishAdd', [$item->id, $item->category_id, $item->subcategory_id, $item->brand_id]) }}"><i class="fa fa-heart"></i></a></li>
+                                       
                                     <li><a href="{{ route('SingleProduct', $item->id) }}"><i class="fa fa-shopping-bag"></i></a></li>
                                 </ul>
+
+
                             </div>
                         </div>
                         <div class="product-content">
@@ -274,25 +245,45 @@ active
                             <p class="pull-left">$ {{ $item->price }}
                             </p>
                             <ul class="pull-right d-flex">
-                                {{-- <li>
-                                @php
-                                    $rev = App\ProductReview::latest()->limit()->get();
-                                @endphp
-                                @foreach ($rev as $rev)
-                                    {{ $rev->rating }}
-                                @endforeach
-                               
-                            </li>
-                            <li>
-                                <div class="rw" style="background: #fff;width: 24px;height: 20px;display: flex;margin-left: -24px;"></div>
-                            </li> --}}
-                                
 
+                                @if (empty($item->ProductRev->rating))
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+
+                                @elseif ($item->ProductRev->rating == 1)
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                @elseif ($item->ProductRev->rating == 2)
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                @elseif ($item->ProductRev->rating == 3)
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                @elseif ($item->ProductRev->rating == 4)
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
                                 <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star-half-o"></i></li>
+                                <li><i class="fa fa-star-o"></i></li>
+                                @elseif ($item->ProductRev->rating == 5)
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -352,8 +343,8 @@ active
         </div>
     </div>
 </form>
-                
-                @endforeach
+           
+@endforeach
 
                 <li class="col-12 text-center">
                     <a class="loadmore-btn" href="javascript:void(0);">Load More</a>
@@ -368,7 +359,7 @@ active
             <div class="row">
                 <div class="col-12">
                     <div class="test-title text-center">
-                        <h2>What Our client Says</h2>
+                        <h2>What Our Client Says</h2>
                     </div>
                 </div>
             </div>
@@ -378,12 +369,12 @@ active
                         @foreach ($review as $item)
                         <div class="test-items test-items2">
                             <div class="test-content">
-                                <p>{{ $item->massage }}</p>
+                                <p>{{ $item->message }}</p>
                                 <h2>{{ $item->name }}</h2>
-                                <p>CEO of Woman Fedaration</p>
+                                <p>{{ $item->subject }}</p>
                             </div>
                             <div class="test-img2">
-                                <img src="assets/images/test/1.png" alt="">
+                                <img style="border-radius: 50%;" src="assets/images/test/1.png" alt="">
                             </div>
                         </div>
                             

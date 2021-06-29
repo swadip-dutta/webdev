@@ -9,7 +9,7 @@ use App\State;
 use Cookie;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Session;
-
+use App\wishlist;
 
 class CheckoutController extends Controller
 {
@@ -26,11 +26,19 @@ class CheckoutController extends Controller
         $value = $request->session()->get('coupon_dis');
         
         $countries = Country::orderBy('name', 'asc')->get();
+
+        $wish = wishlist::where('cookie_id', $cookie)->get();
+
+        $value_c = Cart::where('cookie_id', $cookie)->get();
+        $value_w = wishlist::where('cookie_id', $cookie)->get();
         
         return view('frontend.checkout', [
             'carts' => $carts,
             'countries' => $countries,
-            'value' => $value
+            'value' => $value,
+            'wish' => $wish,
+            'value_c' => $value_c,
+            'value_w' => $value_w
             
             
         ]);

@@ -43,37 +43,31 @@
   <body>
 
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="sl-logo"><a href=""><i class="icon ion-android-star-outline"></i> starlight</a></div>
+    <div class="sl-logo"><a href=""><i class="icon ion-android-star-outline"></i> E-Commerce</a></div>
     <div class="sl-sideleft">
-      <div class="input-group input-group-search">
-        <input type="search" name="search" class="form-control" placeholder="Search">
-        <span class="input-group-btn">
-          <button class="btn"><i class="fa fa-search"></i></button>
-        </span><!-- input-group-btn -->
-      </div><!-- input-group -->
 
       <label class="sidebar-label">Navigation</label>
       <div class="sl-sideleft-menu">
         <a href=" {{ url('home') }} " class="sl-menu-link @yield('dashboard')">
           <div class="sl-menu-item">
-            <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
+            <i class="menu-item-icon icon fa fa-home tx-22"></i>
             <span class="menu-item-label">Dashboard</span>
           </div><!-- menu-item -->
         </a><!-- sl-menu-link -->
 
 
-        <a href="#" class="sl-menu-link @yield('category')">
+        <a href="#" class="sl-menu-link @yield('add_category') @yield('view_category') @yield('add_subcategory') @yield('view_subcategory')">
           <div class="sl-menu-item">
-            <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
+            <i class="menu-item-icon fa fa-tasks tx-20"></i>
             <span class="menu-item-label">Category</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- sl-menu-link -->
         <ul class="sl-menu-sub nav flex-column">
-          <li class="nav-item"><a href="#classComplexity" class="nav-link">Add Category</a></li>
-          <li class="nav-item"><a href="{{ url('category-list') }}" class="nav-link">View Category</a></li>
-          <li class="nav-item"><a href="{{ url('subcategory-from') }}" class="nav-link">Add  SubCategory</a></li>
-          <li class="nav-item"><a href="{{ url('subcategory-view') }}" class="nav-link @yield('category')">View SubCategory</a></li>
+          <li class="nav-item"><a href="{{ route('CategoryAdd') }}" class="nav-link @yield('add_category')">Add Category</a></li>
+          <li class="nav-item"><a href="{{ url('category-list') }}" class="nav-link @yield('view_category')">View Category</a></li>
+          <li class="nav-item"><a href="{{ url('subcategory-from') }}" class="nav-link @yield('add_subcategory')">Add  SubCategory</a></li>
+          <li class="nav-item"><a href="{{ url('subcategory-view') }}" class="nav-link @yield('view_subcategory')">View SubCategory</a></li>
           <li class="nav-item"><a href="{{ url('delete-restore') }}" class="nav-link">Delete Or Restore Category</a></li>
          
         </ul>
@@ -81,143 +75,76 @@
 
         {{-- BLOG ITEMS --}}
 
-        <a href="#" class="sl-menu-link @yield('blog')">
+        <a href="#" class="sl-menu-link @yield('add_blog') @yield('view_blog') @yield('edit_blog')">
           <div class="sl-menu-item">
-            <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
+            <i class="menu-item-icon fa fa-bold tx-20"></i>
             <span class="menu-item-label">Blog</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- sl-menu-link -->
         <ul class="sl-menu-sub nav flex-column">
-          <li class="nav-item"><a href="{{ route('blog.create') }}" class="nav-link">Add Blog</a></li>
-          <li class="nav-item"><a href="{{ route('blog.store') }}" class="nav-link">View Blog</a></li>
+          <li class="nav-item"><a href="{{ route('blog.create') }}" class="nav-link @yield('add_blog')">Add Blog</a></li>
+          <li class="nav-item"><a href="{{ route('blog.store') }}" class="nav-link @yield('view_blog')">View Blog</a></li>
           
          
         </ul>
 
 
 
-        <a href="{{'users'}}" class="sl-menu-link">
+        <a href="{{route('users')}}" class="sl-menu-link @yield('users')">
           <div class="sl-menu-item">
             <i class="menu-item-icon icon ion-person-stalker tx-20"></i>
             <span class="menu-item-label">Users</span>
           </div><!-- menu-item -->
         </a><!-- sl-menu-link -->
 
-        <a href="{{ route('products')}}" class="sl-menu-link">
+        <a href="{{ route('products')}}" class="sl-menu-link @yield('products')">
           <div class="sl-menu-item">
             <i class="menu-item-icon icon fa fa-database tx-20"></i>
             <span class="menu-item-label">Products</span>
           </div><!-- menu-item -->
         </a><!-- sl-menu-link -->
 
-        <a href="{{ route('orders')}}" class="sl-menu-link">
+        <a href="{{ route('orders') }}" class="sl-menu-link @yield('orders')">
           <div class="sl-menu-item">
             <i class="menu-item-icon icon fa fa-dollar tx-20"></i>
             <span class="menu-item-label">Orders</span>
           </div>
         </a>
         <!-- sl-menu-link -->
-
-        <a href="{{ route('Role')}}" class="sl-menu-link">
+        <a href="{{ route('ShippingList') }}" class="sl-menu-link @yield('shipping')">
           <div class="sl-menu-item">
-            <i class="menu-item-icon icon icon ion-settings tx-20"></i>
-            {{-- <i class="menu-item-icon icon fas fa-user-circle tx-20"></i> --}}
+            <i class="menu-item-icon icon fa fa-truck tx-20"></i>
+            <span class="menu-item-label">Shipping</span>
+          </div>
+        </a>
+        <!-- sl-menu-link -->
+
+        <a href="{{ route('Role')}}" class="sl-menu-link @yield('role')">
+          <div class="sl-menu-item">
+            <i class="menu-item-icon icon icon fa fa-user-circle tx-20"></i>
             <span class="menu-item-label">Role Manager</span>
           </div>
         </a>
         <!-- sl-menu-link -->
 
-        <a href="#" class="sl-menu-link">
+
+
+
+        <a href="{{ route('logout') }}" onclick="event.preventDefault();
+        document.getElementById('logout-form').submit();" class="sl-menu-link">
           <div class="sl-menu-item">
-            <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
-            <span class="menu-item-label">Charts</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
+            
+            <i class="menu-item-icon icon ion-power tx-24"></i>
+            <span class="menu-item-label">{{ __('Log Out') }}</span>
           </div><!-- menu-item -->
         </a><!-- sl-menu-link -->
-        <ul class="sl-menu-sub nav flex-column">
-          <li class="nav-item"><a href="chart-morris.html" class="nav-link">Morris Charts</a></li>
-          <li class="nav-item"><a href="chart-flot.html" class="nav-link">Flot Charts</a></li>
-          <li class="nav-item"><a href="chart-chartjs.html" class="nav-link">Chart JS</a></li>
-          <li class="nav-item"><a href="chart-rickshaw.html" class="nav-link">Rickshaw</a></li>
-          <li class="nav-item"><a href="chart-sparkline.html" class="nav-link">Sparkline</a></li>
-        </ul>
-        <a href="#" class="sl-menu-link">
-          <div class="sl-menu-item">
-            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
-            <span class="menu-item-label">Forms</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- sl-menu-link -->
-        <ul class="sl-menu-sub nav flex-column">
-          <li class="nav-item"><a href="form-elements.html" class="nav-link">Form Elements</a></li>
-          <li class="nav-item"><a href="form-layouts.html" class="nav-link">Form Layouts</a></li>
-          <li class="nav-item"><a href="form-validation.html" class="nav-link">Form Validation</a></li>
-          <li class="nav-item"><a href="form-wizards.html" class="nav-link">Form Wizards</a></li>
-          <li class="nav-item"><a href="form-editor-text.html" class="nav-link">Text Editor</a></li>
-        </ul>
-        <a href="#" class="sl-menu-link">
-          <div class="sl-menu-item">
-            <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
-            <span class="menu-item-label">UI Elements</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- sl-menu-link -->
-        <ul class="sl-menu-sub nav flex-column">
-          <li class="nav-item"><a href="accordion.html" class="nav-link">Accordion</a></li>
-          <li class="nav-item"><a href="alerts.html" class="nav-link">Alerts</a></li>
-          <li class="nav-item"><a href="buttons.html" class="nav-link">Buttons</a></li>
-          <li class="nav-item"><a href="cards.html" class="nav-link">Cards</a></li>
-          <li class="nav-item"><a href="icons.html" class="nav-link">Icons</a></li>
-          <li class="nav-item"><a href="modal.html" class="nav-link">Modal</a></li>
-          <li class="nav-item"><a href="navigation.html" class="nav-link">Navigation</a></li>
-          <li class="nav-item"><a href="pagination.html" class="nav-link">Pagination</a></li>
-          <li class="nav-item"><a href="popups.html" class="nav-link">Tooltip &amp; Popover</a></li>
-          <li class="nav-item"><a href="progress.html" class="nav-link">Progress</a></li>
-          <li class="nav-item"><a href="spinners.html" class="nav-link">Spinners</a></li>
-          <li class="nav-item"><a href="typography.html" class="nav-link">Typography</a></li>
-        </ul>
-        <a href="#" class="sl-menu-link">
-          <div class="sl-menu-item">
-            <i class="menu-item-icon icon ion-ios-bookmarks-outline tx-20"></i>
-            <span class="menu-item-label">Tables</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- sl-menu-link -->
-        <ul class="sl-menu-sub nav flex-column">
-          <li class="nav-item"><a href="table-basic.html" class="nav-link">Basic Table</a></li>
-          <li class="nav-item"><a href="table-datatable.html" class="nav-link">Data Table</a></li>
-        </ul>
-        <a href="#" class="sl-menu-link">
-          <div class="sl-menu-item">
-            <i class="menu-item-icon icon ion-ios-navigate-outline tx-24"></i>
-            <span class="menu-item-label">Maps</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- sl-menu-link -->
-        <ul class="sl-menu-sub nav flex-column">
-          <li class="nav-item"><a href="map-google.html" class="nav-link">Google Maps</a></li>
-          <li class="nav-item"><a href="map-vector.html" class="nav-link">Vector Maps</a></li>
-        </ul>
-        <a href="mailbox.html" class="sl-menu-link">
-          <div class="sl-menu-item">
-            <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
-            <span class="menu-item-label">Mailbox</span>
-          </div><!-- menu-item -->
-        </a><!-- sl-menu-link -->
-        <a href="#" class="sl-menu-link">
-          <div class="sl-menu-item">
-            <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
-            <span class="menu-item-label">Pages</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- sl-menu-link -->
-        <ul class="sl-menu-sub nav flex-column">
-          <li class="nav-item"><a href="blank.html" class="nav-link">Blank Page</a></li>
-          <li class="nav-item"><a href="page-signin.html" class="nav-link">Signin Page</a></li>
-          <li class="nav-item"><a href="page-signup.html" class="nav-link">Signup Page</a></li>
-          <li class="nav-item"><a href="page-notfound.html" class="nav-link">404 Page Not Found</a></li>
-        </ul>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+          @csrf
+      </form>
+
+
+        
       </div><!-- sl-sideleft-menu -->
 
       <br>
@@ -235,15 +162,13 @@
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
             <span class="logged-name">{{ Auth::user()->name }}</span>
-              <img src="../img/img3.jpg" class="wd-32 rounded-circle" alt="">
+            
+              <img src="{{ asset('Pro_images/'. Auth::user()->id.'/'. Auth::user()->images) }}" class="wd-32 rounded-circle" alt="">
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200">
               <ul class="list-unstyled user-profile-nav">
-                <li><a href=""><i class="icon ion-ios-person-outline"></i> Edit Profile</a></li>
-                <li><a href=""><i class="icon ion-ios-gear-outline"></i> Settings</a></li>
-                <li><a href=""><i class="icon ion-ios-download-outline"></i> Downloads</a></li>
-                <li><a href=""><i class="icon ion-ios-star-outline"></i> Favorites</a></li>
-                <li><a href=""><i class="icon ion-ios-folder-outline"></i> Collections</a></li>
+                <li><a href="{{ route('UsersEdit', Auth::user()->id) }}"><i class="icon ion-ios-person-outline"></i> Edit Profile</a></li>
+                
                 <li>
                   
                   <a class="dropdown-item" href="{{ route('logout') }}"
@@ -277,7 +202,7 @@
     <div class="sl-sideright">
       <ul class="nav nav-tabs nav-fill sidebar-tabs" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" role="tab" href="#messages">Messages (2)</a>
+          <a class="nav-link active" data-toggle="tab" role="tab" href="#messages">Messages ({{ Message()->count() }})</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" role="tab" href="#notifications">Notifications (8)</a>
@@ -289,61 +214,25 @@
         <div class="tab-pane pos-absolute a-0 mg-t-60 active" id="messages" role="tabpanel">
           <div class="media-list">
             <!-- loop starts here -->
+            @foreach (Message() as $item)
             <a href="" class="media-list-link">
               <div class="media">
-                <img src="../img/img3.jpg" class="wd-40 rounded-circle" alt="">
+                <img src="{{ asset('images/avater.jpg') }}" class="wd-40 rounded-circle" alt="">
                 <div class="media-body">
-                  <p class="mg-b-0 tx-medium tx-gray-800 tx-13">Donna Seay</p>
-                  <span class="d-block tx-11 tx-gray-500">2 minutes ago</span>
-                  <p class="tx-13 mg-t-10 mg-b-0">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring.</p>
+                  <p class="mg-b-0 tx-medium tx-gray-800 tx-13">{{ $item->name }}</p>
+                  <span class="d-block tx-11 tx-gray-500">{{ $item->created_at->format('h:i A') }}</span>
+                  <p class="tx-13 mg-t-10 mg-b-0">{{ Str::limit($item->message, 50, '...') }}</p>
                 </div>
               </div><!-- media -->
             </a>
             <!-- loop ends here -->
-            <a href="" class="media-list-link">
-              <div class="media">
-                <img src="../img/img4.jpg" class="wd-40 rounded-circle" alt="">
-                <div class="media-body">
-                  <p class="mg-b-0 tx-medium tx-gray-800 tx-13">Samantha Francis</p>
-                  <span class="d-block tx-11 tx-gray-500">3 hours ago</span>
-                  <p class="tx-13 mg-t-10 mg-b-0">My entire soul, like these sweet mornings of spring.</p>
-                </div>
-              </div><!-- media -->
-            </a>
-            <a href="" class="media-list-link">
-              <div class="media">
-                <img src="../img/img7.jpg" class="wd-40 rounded-circle" alt="">
-                <div class="media-body">
-                  <p class="mg-b-0 tx-medium tx-gray-800 tx-13">Robert Walker</p>
-                  <span class="d-block tx-11 tx-gray-500">5 hours ago</span>
-                  <p class="tx-13 mg-t-10 mg-b-0">I should be incapable of drawing a single stroke at the present moment...</p>
-                </div>
-              </div><!-- media -->
-            </a>
-            <a href="" class="media-list-link">
-              <div class="media">
-                <img src="../img/img5.jpg" class="wd-40 rounded-circle" alt="">
-                <div class="media-body">
-                  <p class="mg-b-0 tx-medium tx-gray-800 tx-13">Larry Smith</p>
-                  <span class="d-block tx-11 tx-gray-500">Yesterday, 8:34pm</span>
+                
+            @endforeach
+            
 
-                  <p class="tx-13 mg-t-10 mg-b-0">When, while the lovely valley teems with vapour around me, and the meridian sun strikes...</p>
-                </div>
-              </div><!-- media -->
-            </a>
-            <a href="" class="media-list-link">
-              <div class="media">
-                <img src="../img/img3.jpg" class="wd-40 rounded-circle" alt="">
-                <div class="media-body">
-                  <p class="mg-b-0 tx-medium tx-gray-800 tx-13">Donna Seay</p>
-                  <span class="d-block tx-11 tx-gray-500">Jan 23, 2:32am</span>
-                  <p class="tx-13 mg-t-10 mg-b-0">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring.</p>
-                </div>
-              </div><!-- media -->
-            </a>
           </div><!-- media-list -->
           <div class="pd-15">
-            <a href="" class="btn btn-secondary btn-block bd-0 rounded-0 tx-10 tx-uppercase tx-mont tx-medium tx-spacing-2">View More Messages</a>
+            <a href="{{ route('AllMessage') }}" class="btn btn-secondary btn-block bd-0 rounded-0 tx-10 tx-uppercase tx-mont tx-medium tx-spacing-2">View More Messages</a>
           </div>
         </div><!-- #messages -->
 

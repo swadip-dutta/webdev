@@ -17,5 +17,9 @@ class attribute extends Model
     function product() {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+    // function wishlist(){
+    //     return $this->hasMany(wishlist::class, 'product_id');
+    // }
 }
 

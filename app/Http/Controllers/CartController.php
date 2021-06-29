@@ -45,83 +45,86 @@ class CartController extends Controller
     }
 
     function Cart(Request $request){
-        $coupon_discount = 0;
-        $code = $request->coupon_code;
-        if($code == ''){ 
 
-            $cookie = Cookie::get('cookie_id');
-            return view('frontend.cart', [
-            'carts' => Cart::where('cookie_id', $cookie)->get(),
-            'coupon_discount' => $coupon_discount
-        ]);
+        $cookie = Cookie::get('cookie_id');
+
+        if(empty(Cart::where('cookie_id', $cookie)->get())){
+            return back();
         }
 
         else{
-            $cookie = Cookie::get('cookie_id');
 
-            if(Coupon::where('code', $code)->exists()) {
-                $carts = Cart::where('cookie_id', $cookie)->get();
-                $valid_date = Coupon::where('code', $code)->first();
-                if(Carbon::now()->format('Y-m-d') <= $valid_date->validity){
+            $coupon_discount = 0;
+            $code = $request->coupon_code;
+            if ($code == '') {
+                $cookie = Cookie::get('cookie_id');
+                return view('frontend.cart', [
+            'carts' => Cart::where('cookie_id', $cookie)->get(),
+            'coupon_discount' => $coupon_discount
+        ]);
+            } else {
+                $cookie = Cookie::get('cookie_id');
 
-                    if($valid_date->level == 'amount'){
-                        $coupon_discount =  $valid_date->discount;
-                    }
-                    else{
-                        $total = 0;
-                        foreach($carts as $cart){
-                            $total += $cart->product->price * $cart->quantity;
-                        }
+                if (Coupon::where('code', $code)->exists()) {
+                    $carts = Cart::where('cookie_id', $cookie)->get();
+                    $valid_date = Coupon::where('code', $code)->first();
+                    if (Carbon::now()->format('Y-m-d') <= $valid_date->validity) {
+                        if ($valid_date->level == 'amount') {
+                            $coupon_discount =  $valid_date->discount;
+                        } else {
+                            $total = 0;
+                            foreach ($carts as $cart) {
+                                $total += $cart->product->price * $cart->quantity;
+                            }
 
-                        if($total > 600){
-                            $coupon_discount =($total / 100) * $valid_date->discount;
+                            if ($total > 600) {
+                                $coupon_discount =($total / 100) * $valid_date->discount;
                             // Session::put('coupon_dis', $coupon_discount);
                             //  $value =  Session::put('coupon_dis', $coupon_discount);
+                            } else {
+                                return back()->with('discount_pay', "you have buy minimun $600");
+                            }
                         }
-
-                        else{
-                            return back()->with('discount_pay', "you have buy minimun $600");
-                        }
-
-                        
+                    } else {
+                        return "Invalid";
                     }
+                } else {
+                    return "Code Doesn't Found";
                 }
-                else{
-                    return "Invalid";
-                }
-            }
-            else{
-                return "Code Doesn't Found";
-            }
 
-            return view('frontend.cart', [
+                return view('frontend.cart', [
             'carts' => $carts,
             'coupon_discount' => $coupon_discount,
             'code' =>$code
 
         ]);
-        }
-
-        
+            }
+        }   
     }
 
-    function CartProductUpdate(Request $request){
-        return "ok";
+    function updatetocart(Request $request){
+  
         foreach($request->cart_id as $key => $data){
             $cart = Cart::findOrFail($data);
             $cart->quantity = $request->quantity[$key];
             $cart->save();
-            return back();
-            
         }
         return back();
     }
+
+
+
+
+
+
+
 
 
     function CartProductDelete($id){
         $del = Cart::findOrFail($id);
         $del->delete();
         return back();
+        
     }
 
 

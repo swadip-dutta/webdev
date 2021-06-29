@@ -4,7 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title> @yield('title', 'Home Page') </title>
-    <title> @yield('blog', 'Blog Page') </title>
+    <title> @yield('title', 'About Page') </title>
+    <title> @yield('title', 'Shop Page') </title>
+    <title> @yield('title', 'Cart Page') </title>
+    <title> @yield('title', 'Blog Page') </title>
+    <title> @yield('title', 'Contact Page') </title>
+    <title> @yield('title', 'Wish Page') </title>
+    <title> @yield('title', 'Login Page') </title>
+    <title> @yield('title', 'Register Page') </title>
+    <title> @yield('title', 'Search Page') </title>
+    <title> @yield('title', 'Verify Page') </title>
+
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {{-- For facebook share --}}
@@ -84,14 +94,14 @@
                                 <ul class="dropdown_style">
                                     <li><a href="{{ url('/login') }}">Login</a></li>
                                     <li><a href="{{ url('/register') }}">Register</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
+                                    <li><a href="{{ route('Cart') }}">Cart</a></li>
                                     <li><a href="{{ route('Checkout') }}">Checkout</a></li>
-                                    <li><a href="wishlist.html">wishlist</a></li>
+                                    <li><a href="{{ route('WishList') }}">wishlist</a></li>
                                 </ul>
                             </li>
                             <li><a href="{{ url('/login') }}"> Login/Register </a></li>
-                            <li><a href="{{ route('lang', 'en') }}">EN</a></li>
-                            <li><a href="{{ route('lang', 'es') }}">ES</a></li>
+                            {{-- <li><a href="{{ route('lang', 'en') }}">EN</a></li>
+                            <li><a href="{{ route('lang', 'es') }}">ES</a></li> --}}
                         </ul>
                     </div>
                 </div>
@@ -102,7 +112,7 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-7 col-sm-6 col-6">
                         <div class="logo">
-                            <a href="index.html">
+                            <a href="{{ route('home') }}">
                         <img src="assets/images/logo.png" alt="">
                         </a>
                         </div>
@@ -111,21 +121,11 @@
                         <nav class="mainmenu">
                             <ul class="d-flex">
                                 <li class="@yield('home')"><a href="{{ route('front') }}">Home</a></li>
-                                <li><a href="#">About</a></li>
-                                <li class="@yield('shop')">
-                                    <a href="{{ route('Shop') }}">Shop</a>
-                                </li>
-                                <li class="@yield('cart')">
-                                    <a href="{{ route('Cart') }}"><i class="fa fa-shopping-bag"></i> Cart</a>
-                                </li>
-                                <li class="@yield('blogs')">
-                                    <a href="{{ route('Blogs') }}"><i class="fa fa-book"></i>Blog</a>
-                                    {{-- <ul class="dropdown_style">
-                                        <li><a href="blog.html">blog Page</a></li>
-                                        <li><a href="blog-details.html">blog Details</a></li>
-                                    </ul> --}}
-                                </li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li class="@yield('about')"><a href="{{ route('About') }}">About</a></li>
+                                <li class="@yield('shop')"><a href="{{ route('Shop') }}">Shop</a></li>
+                                <li class="@yield('cart')"><a href="{{ route('Cart') }}"><i class="fa fa-shopping-bag"></i> Cart</a></li>
+                                <li class="@yield('blogs')"><a href="{{ route('Blogs') }}"><i class="fa fa-book"></i>Blog</a></li>
+                                <li class="@yield('contact')"><a href="{{ route('Contact') }}">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -134,34 +134,46 @@
                             
                             <li class="search-tigger"><a href="javascript:void(0);"><i class="flaticon-search"></i></a></li>
                             <li>
-                                <a href="javascript:void(0);"><i class="flaticon-like"></i> <span>2</span></a>
+                                <a href="javascript:void(0);"><i class="flaticon-like"></i> <span>{{ wishlist()->count() }}</span></a>
                                 <ul class="cart-wrap dropdown_style">
-                                    <li class="cart-items">
+                                    @php
+                                        $sub = 0;
+                                    @endphp
+
+                                    @foreach (wishlist() as $item)
+
+                                    <li style="border-bottom: 1px solid #333; margin-bottom: 0px;" class="cart-items">
                                         <div class="cart-img">
-                                            <img src="assets/images/cart/1.jpg" alt="">
+                                            <img style="width: 70px; height:90px" src="{{ asset('images/'.$item->product->thumbnail) }}" alt="">
                                         </div>
                                         <div class="cart-content">
-                                            <a href="cart.html">Pure Nature Product</a>
-                                            <span>QTY : 1</span>
-                                            <p>$35.00</p>
-                                            <i class="fa fa-times"></i>
+                                            <a href="{{ route('SingleProduct', $item->product->id) }}">{{ $item->product->title }}</a>
+
+                                            @foreach (attribute() as $qty)
+                                                                
+                                                            
+                                            @endforeach
+
+                                            @if ($item->product_id == $qty->quantity > 2)
+                                                                In Stock
+                                                            @else
+                                                                Out of Stock
+                                                            @endif
+                                                            
+                                            <p>${{ $item->product->price }}</p>
+
+                                            @php
+                                                $sub += $item->quantity * $item->product->price;
+                                            @endphp
+
+                                            <a href="{{ route('WishProductDelete', $item->id) }}"><i class="fa fa-times"></i></a> 
                                         </div>
                                     </li>
-                                    <li class="cart-items">
-                                        <div class="cart-img">
-                                            <img src="assets/images/cart/3.jpg" alt="">
-                                        </div>
-                                        <div class="cart-content">
-                                            <a href="cart.html">Pure Nature Product</a>
-                                            <span>QTY : 1</span>
-                                            <p>$35.00</p>
-                                            <i class="fa fa-times"></i>
-                                        </div>
+                                        
+                                    <li style="border-bottom: 1px solid #999; margin-bottom: 5px; margin-top: -15px;">
+                                        <a href="{{ route('SingleProduct', $item->product->id) }}" class="btn  @if ($item->product_id == $qty->quantity < 2) disabled @endif"><button style="margin: 15px auto;">Buy</button></a>
                                     </li>
-                                    <li>Subtotol: <span class="pull-right">$70.00</span></li>
-                                    <li>
-                                        <a href="{{ route('Checkout') }}"><button>Check Out</button></a>
-                                    </li>
+                                    @endforeach
                                 </ul>
                             </li>
                             <li>
@@ -226,37 +238,30 @@
                     <div class="row">
                         <div class="col-12 d-block d-lg-none">
                             <ul class="metismenu">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About</a></li>
+                                <li><a href="{{ route('home') }}">Home</a></li>
+                                <li><a href="{{ route('About') }}">About</a></li>
                                 <li class="sidemenu-items">
                                     <a class="has-arrow" aria-expanded="false" href="{{ route('Shop') }}">Shop </a>
-                                    {{-- <ul aria-expanded="false">
-                                        <li><a href="shop.html">Shop Page</a></li>
-                                        <li><a href="single-product.html">Product Details</a></li>
-                                        <li><a href="cart.html">Shopping cart</a></li>
-                                        <li><a href="{{ route('Checkout') }}">Checkout</a></li>
-                                        <li><a href="wishlist.html">Wishlist</a></li>
-                                    </ul> --}}
                                 </li>
                                 <li class="sidemenu-items">
                                     <a class="has-arrow" aria-expanded="false" href="javascript:void(0);">Pages </a>
                                     <ul aria-expanded="false">
-                                      <li><a href="about.html">About Page</a></li>
-                                      <li><a href="single-product.html">Product Details</a></li>
-                                      <li><a href="cart.html">Shopping cart</a></li>
+                                      <li><a href="{{ route('About') }}">About Page</a></li>
+                                      <li><a href="">Product Details</a></li>
+                                      <li><a href="{{ route('Cart') }}">Shopping cart</a></li>
                                       <li><a href="{{ route('Checkout') }}">Checkout</a></li>
-                                      <li><a href="wishlist.html">Wishlist</a></li>
-                                      <li><a href="faq.html">FAQ</a></li>
+                                      <li><a href="{{ route('WishList') }}">Wishlist</a></li>
+                                      <li><a href="{{ route('About') }}">FAQ</a></li>
                                     </ul>
                                 </li>
                                 <li class="sidemenu-items">
                                     <a class="has-arrow" aria-expanded="false" href="javascript:void(0);">Blog</a>
                                     <ul aria-expanded="false">
-                                        <li><a href="blog.html">Blog</a></li>
-                                        <li><a href="blog-details.html">Blog Details</a></li>
+                                        <li><a href="{{ route('Blogs') }}">Blog</a></li>
+                                        <li><a href="{{ route('Blogs') }}">Blog Details</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="{{ route('Contact') }}">Contact</a></li>
                             </ul>
                         </div>
                     </div>
@@ -297,11 +302,11 @@
                         <div class="col-lg-12 col-12">
                             <div class="footer-top-text text-center">
                                 <ul>
-                                    <li><a href="home.html">home</a></li>
-                                    <li><a href="#">our story</a></li>
-                                    <li><a href="#">feed shop</a></li>
-                                    <li><a href="blog.html">how to eat blog</a></li>
-                                    <li><a href="contact.html">contact</a></li>
+                                    <li><a href="#">home</a></li>
+                                    <li><a href="{{ route('About') }}">our story</a></li>
+                                    <li><a href="{{ route('Shop') }}">feed shop</a></li>
+                                    <li><a href="{{ route('Blogs') }}">how to eat blog</a></li>
+                                    <li><a href="{{ route('Contact') }}">contact</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -315,10 +320,10 @@
                     <div class="col-lg-2 col-md-3 col-sm-12">
                         <div class="footer-icon">
                             <ul class="d-flex">
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="www.facebook.com"><i class="fa fa-facebook"></i></a></li>
                                 <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                                 <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="www.google.com"><i class="fa fa-google-plus"></i></a></li>
                             </ul>
                         </div>
                     </div>

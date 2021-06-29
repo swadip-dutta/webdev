@@ -143,32 +143,16 @@ Checkout Page
                                 <li>{{ $cart->product->title }}<span class="pull-right">{{ $cart->product->price }}</span><br>
                                 {{ $cart->quantity }} * {{ $cart->product->price }}
                                 </li>
-                                
-                                
-                                
+                                                               
                                 @endforeach
+
                                 <li>Subtotal <span class="pull-right"><strong>${{ $grand_total }}</strong></span></li>
                                 <li style="font-size: 14px; font-weight: 400">Shipping <span class="pull-right" style="margin-top: -20px" required>
-                              <input class="dhaka" name="shipping" type="radio" value={{ 60 }}> Dhaka<br>
-                              <input class="outside_dhaka" name="shipping" type="radio" value={{ 160 }}> Out Side Of Dhaka
+                              <input class="dhaka" name="shipping" type="radio" value={{ 60.05 }}> Dhaka<br>
+                              <input class="outside_dhaka" name="shipping" type="radio" value={{ 160.05 }}> Out Side Of Dhaka
                               </span></li>
 
-                              <li class="total" value="{{ $value }}">Total<span class="pull-right total_in">$ {{ $value }}</span></li>
-
-                              {{-- @if('shipping')
-                              <li>Total<span class="pull-right">$ {{ $value + 60 }}</span></li>
-                              @else 
-                              <li>Total<span class="pull-right">$ {{ $value + 160 }}</span></li>
-                              @endif --}}
-                                {{-- @if()
-                                    
-                                @endif --}}
-
-
-                                
-
-                                {{-- @if($value > 1) {{$value}}
-                                @else {{ $grand_total }} @endif --}}
+                              <li class="total" value="{{ $grand_total }}">Total<span class="pull-right total_in">$ {{ $grand_total }}</span></li>
                                    
                             </ul>
                             
@@ -184,7 +168,9 @@ Checkout Page
                                 <li>
                                     <input id="card" value="card" type="radio" name="payment">
                                     <label for="card">Credit Card</label>
-                                <li>
+                                </li>
+
+                                <div id="card_selector">
 
                                 <label for="card-element">
                                     Credit or debit card
@@ -196,8 +182,10 @@ Checkout Page
                               
                                   <!-- Used to display form errors. -->
                                   <div id="card-errors" role="alert"></div>
-                                </li>
-                                </li>
+
+                                </div>
+                                
+                                <li>
 
                                 
                                     <input id="cash" value="cash" type="radio" name="payment">
@@ -271,11 +259,15 @@ Checkout Page
 
 
 //Stripe Js Code Start
-// var x = $("#card").selectedIndex;
 
-// var s = document.getElementById('#card');
 
-if ($("#card").selectedIndex) {
+$('#card').click(function(){
+            
+        
+
+
+
+
 
 // Create a Stripe client.
 var stripe = Stripe('pk_test_51I5Q8AGBXnr0dom1Mj38LAfLboVNKsMjvOnykEo5pLTHJhUUtwd7gbgR34PIMAiaJMlCQAZ4c9gKNgoxbzGykUoH00eus150zJ');
@@ -353,19 +345,19 @@ function stripeTokenHandler(token) {
 }
 
 
-}
+});
 
 //SELECTION SCRIPT
 
 $('.dhaka').click(function(){
     let total = $('.total').val();
-    $('.total_in').html('$' + (total + 60));
+    $('.total_in').html('$' + (total + 60.05));
     
 })
 
 $('.outside_dhaka').click(function(){
     let total = $('.total').val();
-    $('.total_in').html('$' + (total + 160));
+    $('.total_in').html('$' + (total + 160.05));
     
 })
 

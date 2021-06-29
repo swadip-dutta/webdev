@@ -1,4 +1,4 @@
-
+@can('edit users')
 @extends('backend.master')
 
 @section('dashboard')
@@ -16,10 +16,7 @@
                 <a href="" class="tx-white-8 hover-white"><i class="icon ion-android-more-horizontal"></i></a>
               </div><!-- card-header -->
 
-              {{-- @php
-                  $today_sale = 0;
-                  $today_sale += Order::wheredate('created_at', Carbon::now())->get('quantity'. + .'quantity');
-              @endphp --}}
+
 
               <div class="d-flex align-items-center justify-content-between">
                 <span class="sparkline2">5,3,9,6,5,9,7,3,5,2</span>
@@ -45,7 +42,7 @@
               </div><!-- card-header -->
               <div class="d-flex align-items-center justify-content-between">
                 <span class="sparkline2">5,3,9,6,5,9,7,3,5,2</span>
-                <h3 class="mg-b-0 tx-white tx-lato tx-bold">${{ $this_week_sale }}</h3>
+                <h3 class="mg-b-0 tx-white tx-lato tx-bold">${{ $ordersLastWeek }}</h3>
               </div><!-- card-body -->
               <div class="d-flex align-items-center justify-content-between mg-t-15 bd-t bd-white-2 pd-t-10">
                 <div>
@@ -67,7 +64,7 @@
               </div><!-- card-header -->
               <div class="d-flex align-items-center justify-content-between">
                 <span class="sparkline2">5,3,9,6,5,9,7,3,5,2</span>
-                <h3 class="mg-b-0 tx-white tx-lato tx-bold">${{ $this_month_sale }}</h3>
+                <h3 class="mg-b-0 tx-white tx-lato tx-bold">${{ $ordersLastMonth }}</h3>
               </div><!-- card-body -->
               <div class="d-flex align-items-center justify-content-between mg-t-15 bd-t bd-white-2 pd-t-10">
                 <div>
@@ -89,7 +86,7 @@
               </div><!-- card-header -->
               <div class="d-flex align-items-center justify-content-between">
                 <span class="sparkline2">5,3,9,6,5,9,7,3,5,2</span>
-                <h3 class="mg-b-0 tx-white tx-lato tx-bold">${{ $this_year_sale }}</h3>
+                <h3 class="mg-b-0 tx-white tx-lato tx-bold">${{ $ordersLastYear }}</h3>
               </div><!-- card-body -->
               <div class="d-flex align-items-center justify-content-between mg-t-15 bd-t bd-white-2 pd-t-10">
                 <div>
@@ -111,7 +108,7 @@
               <div class="card-header bg-transparent pd-y-20 d-sm-flex align-items-center justify-content-between">
                 <div class="mg-b-20 mg-sm-b-0">
                   <h6 class="card-title mg-b-5 tx-13 tx-uppercase tx-bold tx-spacing-1">Profile Statistics</h6>
-                  <span class="d-block tx-12">October 23, 2017</span>
+                  <span class="d-block tx-12">{{ $this_day }}</span>
                 </div>
                 <div class="btn-group" role="group" aria-label="Basic example">
                   <a href="#" class="btn btn-secondary tx-12 active">Today</a>
@@ -133,7 +130,7 @@
                     <p class="tx-11 mg-b-0 tx-uppercase">Likes</p>
                   </div><!-- col-2 -->
                   <div class="col-6 col-sm-2 pd-y-20 bd-l">
-                    <h4 class="tx-inverse tx-lato tx-bold mg-b-5">343</h4>
+                    <h4 class="tx-inverse tx-lato tx-bold mg-b-5">{{ $comment }}</h4>
                     <p class="tx-11 mg-b-0 tx-uppercase">Comments</p>
                   </div><!-- col-2 -->
                   <div class="col-6 col-sm-2 pd-y-20 bd-l">
@@ -150,7 +147,7 @@
             <div class="card pd-20 pd-sm-25 mg-t-20">
               <h6 class="card-body-title tx-13">Horizontal Bar Chart</h6>
               <p class="mg-b-20 mg-sm-b-30">A bar chart or bar graph is a chart with rectangular bars with lengths proportional to the values that they represent.</p>
-              <canvas id="chartBar4" height="300"></canvas>
+              <canvas id="barchart" width="400" height="400"></canvas>
             </div><!-- card -->
 
           </div><!-- col-8 -->
@@ -169,16 +166,16 @@
                 <a href=""><i class="icon ion-more"></i></a>
               </div><!-- card-header -->
               <div class="list-group list-group-flush">
-                @foreach ($review as $item)
+                @foreach (Message() as $item)
 
                 <a href="" class="list-group-item list-group-item-action media">
-                  <img src="../img/img10.jpg" alt="">
+                  <img src="{{ asset('images/avater.jpg') }}" alt="">
                   <div class="media-body">
                     <div class="msg-top">
                       <span>{{ $item->name }}</span>
                       <span>{{ $item->created_at->format('H:i a') }}</span>
                     </div>
-                    <p class="msg-summary">{!! Str::limit($item->massage, 100, '.......') !!}</p>
+                    <p class="msg-summary">{!! Str::limit($item->message, 100, '.......') !!}</p>
                   </div><!-- media-body -->
                 </a><!-- list-group-item -->
                     
@@ -187,7 +184,7 @@
 
               </div><!-- list-group -->
               <div class="card-footer">
-                <a href="" class="tx-12"><i class="fa fa-angle-down mg-r-3"></i> Load more messages</a>
+                <a href="{{ route('AllMessage') }}" class="tx-12"><i class="fa fa-angle-down mg-r-3"></i> Load more messages</a>
               </div><!-- card-footer -->
             </div><!-- card -->
           </div><!-- col-3 -->
@@ -195,6 +192,7 @@
 
 </div>
 @endsection
+@endcan
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
@@ -233,6 +231,54 @@ $(document).ready(function(){
           }
       }
   });
+
+
+
+// Bar Chart
+
+
+var ctx = document.getElementById('barchart').getContext('2d');
+var barchart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        datasets: [{
+            label: '# of Sells',
+            data: [{{ $jan }}, {{ $feb }}, {{ $mar }}, {{ $apr }}, {{ $may }}, {{ $jun }}],
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+
+
+
+
   });
+
+
 
 </script>

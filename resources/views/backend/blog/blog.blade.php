@@ -1,10 +1,10 @@
 @extends('backend.master')
 
-@section('blog')
+@section('view_blog')
   active
  @endsection
 
-{{-- @can('add category') --}}
+@can('add category')
 @section('content')
 
 <div class="sl-pagebody">
@@ -65,7 +65,7 @@
       </div>
 
 @endsection
-{{-- @endcan --}}
+@endcan
 
 
 

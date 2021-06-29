@@ -1,5 +1,9 @@
 @extends('frontend.master')
 
+@section('title')
+ Login Page
+@endsection
+
 @section('content')
 
  <!-- .breadcumb-area start -->

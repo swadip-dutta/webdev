@@ -1,4 +1,8 @@
 @extends('backend.master')
+@section('products')
+    active
+@endsection
+@can('add category')
 @section('content')
     
 <div class="sl-pagebody">
@@ -64,3 +68,33 @@
   </div>
 
 @endsection
+@endcan
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+$(document).ready(function(){
+
+  const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+  @if(session('success'))
+  Toast.fire({
+  icon: 'success',
+  title: '{{ session('success') }}'
+});
+@endif
+
+
+});
+
+</script> 

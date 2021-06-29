@@ -4,6 +4,10 @@
 active
 @endsection
 
+@section('title')
+ Shop Page
+@endsection
+
 @section('content')
 
 
@@ -37,7 +41,7 @@ active
 
                             @foreach ($cats as $cat)
 
-                            <li>
+                            <li style="margin-bottom: 10px;">
                                 <a data-toggle="tab" href="#chair{{ $cat->id }}">{{ $cat->category_name }}</a>
                             </li>
                                 
@@ -55,16 +59,16 @@ active
 
                         @foreach ($products as $key => $item)
 
-                        <li class="col-xl-3 col-lg-4 col-sm-6 col-12 {{ $products->count() }} @if($key + 1 > 8) moreload @endif">
+                        <li class="col-xl-3 col-lg-4 col-sm-6 col-12 {{ $products->count() }} @if($key + 1 > 0) moreload @endif">
                             <div class="product-wrap">
                                 <div class="product-img">
                                     <span>Sale</span>
                                     <img src="{{ asset('images/'.$item->thumbnail) }}" alt="">
                                     <div class="product-icon flex-style">
                                         <ul>
-                                            <li><a data-toggle="modal" data-target="#exampleModalCenter" href="javascript:void(0);"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="wishlist.html"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="{{ route('AddToCart', $item->id) }}"><i class="fa fa-shopping-bag"></i></a></li>
+                                            <li><a data-toggle="modal" data-target="#exampleModalCenter" href="{{ route('SingleProduct', $item->id) }}"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="{{ route('WishAdd', [$item->id, $item->category_id, $item->subcategory_id, $item->brand_id]) }}"><i class="fa fa-heart"></i></a></li>
+                                            <li><a href="{{ route('SingleProduct', $item->id) }}"><i class="fa fa-shopping-bag"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -72,11 +76,45 @@ active
                                     <h3><a href="{{ route('SingleProduct', $item->id) }}">{{ $item->title }}</a></h3>
                                     <p class="pull-left">${{ $item->price }}</p>
                                     <ul class="pull-right d-flex">
+
+                                        @if (empty($item->ProductRev->rating))
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+        
+                                        @elseif ($item->ProductRev->rating == 1)
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        @elseif ($item->ProductRev->rating == 2)
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        @elseif ($item->ProductRev->rating == 3)
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        @elseif ($item->ProductRev->rating == 4)
                                         <li><i class="fa fa-star"></i></li>
                                         <li><i class="fa fa-star"></i></li>
                                         <li><i class="fa fa-star"></i></li>
                                         <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        @elseif ($item->ProductRev->rating == 5)
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>

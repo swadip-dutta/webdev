@@ -2131,6 +2131,18 @@ margin-left: 15px;
     color: #fff;
 }
 
+.de:hover,
+.de:hover span{
+    background: #ef4836;
+    color: #fff;
+}
+
+
+.spm:hover{
+    background: #ef4836;
+    color: #fff;
+}
+
 .pagin.current a{
     color: #fff;
 }

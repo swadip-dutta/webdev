@@ -29,12 +29,16 @@ class CategoryController extends Controller
         ]);
     }
 
+    function CategoryAdd(){
+        return view('backend.category.category-add');
+    }
+
 
     function CategoryPost(Request $req) {
 
              //Validation
             $req->validate([
-            'category_name' => ['required', 'min:3', 'unique:categories', 'regex:/^[A-Za-z0-9 \-]*$/']
+            'category_name' => ['required', 'min:3', 'unique:categories']
             ],
             //  [ 'category_name.required' => 'Please Enter Your Name' ]
         );

@@ -1,6 +1,8 @@
 @extends('backend.master')
-
-
+@section('products')
+    active
+@endsection
+@can('add category')
 @section('content')
 
 <div class="sl-pagebody">
@@ -114,6 +116,7 @@
 </div><!-- sl-pagebody -->
 
 @endsection
+@endcan
 
 {{-- Links --}}
 

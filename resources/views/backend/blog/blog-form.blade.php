@@ -1,10 +1,10 @@
 @extends('backend.master')
 
-@section('blog')
+@section('add_blog')
   active
  @endsection
 
-{{-- @can('add category') --}}
+@can('add category')
 @section('content')
 
 <div class="sl-pagebody">
@@ -77,7 +77,7 @@
   
 
 @endsection
-{{-- @endcan --}}
+@endcan
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
  

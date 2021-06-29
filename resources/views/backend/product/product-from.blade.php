@@ -1,6 +1,8 @@
 @extends('backend.master')
-
-
+@section('products')
+    active
+@endsection
+@can('add category')
 @section('content')
 
 <div class="sl-pagebody">
@@ -87,53 +89,7 @@
             <span class="delete btn button-white uppercase"><i class="fa fa-times"></i></span>
           </div>
 
-          
-
-
-       
-
-
-           {{-- <!-- row -->
-           <div id="items">
-            <div class="row mg-t-20">
-              <label for="color_id" class="col-sm-2 form-control-label">Color: <span class="tx-danger">*</span></label>
-              <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                <select name="color_id[]" id="color_id" class="form-control">
-                  @foreach ($colors as $color)
-                  <option value="{{ $color->id }}">{{ $color->color_name }}</option>
-                  @endforeach
-  
-                </select>
-              </div>
-            
-  
-  
-             <!-- row -->
-  
-             
-              <label for="size_id" class="col-sm-1 form-control-label">Size: <span class="tx-danger">*</span></label>
-              <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                <select name="size_id[]" id="size_id" class="form-control">
-                  @foreach ($sizes as $size)
-                  <option value="{{ $size->id }}">{{ $size->size_name }}</option>
-                  @endforeach
-  
-                </select>
-              </div>
-            
-  
-  
-              <!-- row -->
-  
-              
-                <label class="col-sm-1 form-control-label">Quantity: <span class="tx-danger">*</span></label>
-                <div class="col-sm-2 mg-t-10 mg-sm-t-0">
-                  <input type="text" name="quantity[]" class="form-control" placeholder="50">
-                </div>
-              </div>
-  
-            </div>
-          <!-- row --> --}}
+      
 
           <div class="row mg-t-20">
             <label for="category_id" class="col-sm-4 form-control-label">Category: <span class="tx-danger">*</span></label>
@@ -210,6 +166,7 @@
 </div><!-- sl-pagebody -->
 
 @endsection
+@endcan
 
 {{-- Links --}}
 

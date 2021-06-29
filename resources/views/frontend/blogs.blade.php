@@ -4,6 +4,10 @@
 active
 @endsection
 
+@section('title')
+ Blog Page
+@endsection
+
 @section('content')
     
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     protected $fillable = [
-        'quantity'
+        'quantity',
     ];
     function Product(){
         return $this->belongsTo(Product::class, 'product_id');
