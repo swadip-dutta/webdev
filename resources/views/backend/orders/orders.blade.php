@@ -44,7 +44,10 @@
           <thead>
             <tr>
               <th>SL#</th>
+              <th>Shipping Id</th>
               <th>Product Name</th>
+              <th>Color Name</th>
+              <th>Size Name</th>
               <th>Quantity</th>
               <th>Unit Price</th>
               <th>Total Unit Price</th>
@@ -59,7 +62,10 @@
               <td>
                {{ $orders->firstItem() + $key }}
               </td>
+              <td>{{ $order->shipping_id }}</td>
               <td>{{ $order->product->title }}</td>
+              <td>{{ $order->get_color->color_name }}</td>
+              <td>{{ $order->get_size->size_name }}</td>
               <td>{{ $order->quantity ?? 'N/A'}}</td>
               <td>{{ $order->product_unit_price ?? 'N/A'}}</td>
               <td>{{ $order->quantity * $order->product_unit_price ?? 'N/A'}}</td>

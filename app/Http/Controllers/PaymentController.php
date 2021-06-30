@@ -70,6 +70,8 @@ class PaymentController extends Controller
             $order = new Order;
             $order->shipping_id = $shipping->id;
             $order->product_id = $cart->product_id;
+            $order->color_id = $cart->color_id;
+            $order->size_id = $cart->size_id;
             $order->product_unit_price = $cart->product->price;
             $order->quantity = $cart->quantity;
             $order->save();
@@ -82,26 +84,6 @@ class PaymentController extends Controller
             $cart->delete();
         }
 
-
-
-        $wish = wishlist::where('cookie_id', $cookie)->get();
-
-        foreach ($wish as $wish) {
-
-            $order = new Order;
-            $order->shipping_id = $shipping->id;
-            $order->product_id = $wish->product_id;
-            $order->product_unit_price = $wish->product->price;
-            $order->quantity = $wish->quantity;
-            $order->save();
-
-            $attr = attribute::where('product_id', $wish->product_id)->where('color_id', $wish->color_id)->where('size_id', $wish->size_id);
-            if($attr->exists()){
-                $attr->decrement('quantity', $wish->quantity);
-            };
-            
-            $wish->delete();
-        }
 
 
 
@@ -194,7 +176,51 @@ class PaymentController extends Controller
         
         }
         elseif($request->payment == 'cash'){
-            return "Cash";
+            
+
+
+            $shipping = new shipping;
+            $shipping->user_id = Auth::id();
+            $shipping->first_name = $request->first_name;
+            $shipping->last_name = $request->last_name;
+            $shipping->company = $request->company;
+            $shipping->email = $request->email;
+            $shipping->phone = $request->phone;
+            $shipping->city_id = $request->city_id;
+            $shipping->address = $request->address;
+            $shipping->zipcode = $request->zipcode;
+            
+            $shipping->coupon_code = $request->coupon_code;
+            $shipping->save();
+    
+            $cookie = Cookie::get('cookie_id');
+            $carts = Cart::where('cookie_id', $cookie)->get();
+    
+            foreach ($carts as $cart) {
+    
+                $order = new Order;
+                $order->shipping_id = $shipping->id;
+                $order->product_id = $cart->product_id;
+                $order->color_id = $cart->color_id;
+                $order->size_id = $cart->size_id;
+                $order->product_unit_price = $cart->product->price;
+                $order->quantity = $cart->quantity;
+                $order->save();
+    
+                $attr = attribute::where('product_id', $cart->product_id)->where('color_id', $cart->color_id)->where('size_id', $cart->size_id);
+                if($attr->exists()){
+                    $attr->decrement('quantity', $cart->quantity);
+                };
+                
+                $cart->delete();
+            }
+    
+    
+    
+                $Payment_Update = Shipping::findOrFail($shipping->id);
+                $Payment_Update->payment_status = 2;
+                $Payment_Update->save();
+
         }
         else{
             return "Payment Select Koro";

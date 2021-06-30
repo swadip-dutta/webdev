@@ -30,8 +30,7 @@
               <th>SL#</th>
               <th>F Name</th>
               <th>L Name</th>
-              
-              
+              <th>Shipping Id</th>
               <th>Phone</th>
               <th>Address</th>
               <th>Pay St</th>
@@ -56,8 +55,7 @@
               </td>
               <td>{{ $item->first_name }}</td>
               <td>{{ $item->last_name }}</td>
-              
-              
+              <td>{{ $item->id }}</td>
               <td>{{ $item->phone }}</td>
               <td>{{ $item->address }}</td>
               <td>{{ $item->payment_status }}</td>
