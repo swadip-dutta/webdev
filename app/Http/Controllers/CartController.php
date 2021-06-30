@@ -10,7 +10,8 @@ use App\Cart;
 use App\Coupon;
 use Carbon\Carbon;
 use App\Http\Controllers\Session;
-
+use App\wishlist;
+use Illuminate\Validation\Rules\Exists;
 
 class CartController extends Controller
 {
@@ -25,6 +26,7 @@ class CartController extends Controller
             $unique = Str::random(7).rand(1,1000);
             Cookie::queue('cookie_id', $unique, 43200);
         }
+        
 
         $exists = Cart::where('cookie_id', $unique)->where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id);
 
@@ -40,8 +42,20 @@ class CartController extends Controller
             $cart->size_id = $request->size_id;
             $cart->save();
         }
+
+
+        $w_exists = wishlist::where('product_id', $request->product_id);
+
+        if($w_exists->exists()){
+            $w_exists->delete();
+            return redirect()->route('Cart');
+         }
+         else{
+            return redirect()->route('Cart');
+         }
+
         
-        return redirect()->route('Cart');
+        
     }
 
     function Cart(Request $request){
